@@ -38,7 +38,7 @@ public class MemberController {
     @DeleteMapping("/{member-id}")
     public ResponseEntity deleteMember(@PathVariable("member-id") long memberId) {
         members.remove(memberId);
-        System.out.println(members.get(1L));
+        System.out.println(memberId + "리소스의 값은? " + members.get(memberId));
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
     //---------------- 여기서 부터 아래에 코드를 구현하세요! --------------------//
