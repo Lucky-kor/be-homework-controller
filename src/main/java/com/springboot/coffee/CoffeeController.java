@@ -1,7 +1,8 @@
 package com.springboot.coffee;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -22,6 +23,25 @@ public class CoffeeController {
         coffee1.put("price", 4500);
 
         coffees.put(coffeeId, coffee1);
+    }
+
+    @PatchMapping("/{coffee-id}")
+    public ResponseEntity patchCoffee(@PathVariable("coffee-id") long coffeeId,
+                                      @RequestParam("korName") String korName,
+                                      @RequestParam("price") int price) {
+        Map<String, Object> patchCoffee = new HashMap<>();
+        patchCoffee = coffees.get(coffeeId);
+        patchCoffee.put("korName", korName);
+        patchCoffee.put("price", price);
+
+        return new ResponseEntity(patchCoffee, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{coffee-id}")
+    public ResponseEntity deleteCoffee(@PathVariable("coffee-id") long coffeeId) {
+        coffees.remove(coffeeId);
+        System.out.println(coffeeId + "리소스의 값은? " + coffees.get(coffeeId));
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     //---------------- 여기서 부터 아래에 코드를 구현하세요! -------------------//
