@@ -31,16 +31,20 @@ public class MemberController {
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id")long memberId,
             @RequestParam("phone") String targetPhone){
-        try{
+        if(members.containsKey(memberId)){
             members.get(memberId).put("phone", targetPhone);
-            return new ResponseEntity<>(members, HttpStatus.OK);
-        }catch(NullPointerException e){
+            return new ResponseEntity<>(members,HttpStatus.OK);
+        }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
     @DeleteMapping("/{member-id}")
     public ResponseEntity deleteMember(@PathVariable("member-id") long memberId){
-        members.remove(memberId);
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        if(members.containsKey(memberId)){
+            members.remove(memberId);
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
