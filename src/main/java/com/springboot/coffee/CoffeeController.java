@@ -1,7 +1,8 @@
 package com.springboot.coffee;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -22,6 +23,32 @@ public class CoffeeController {
         coffee1.put("price", 4500);
 
         coffees.put(coffeeId, coffee1);
+    }
+
+    @PatchMapping("/{coffeeId}")
+    public ResponseEntity coffeeNamePatch(@PathVariable("coffeeId") long coffeeId,
+                                          @RequestParam("korName") String korName,
+                                          @RequestParam("price") int price) {
+        if(!coffees.containsKey(coffeeId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        Map<String, Object> coffee2 = coffees.get(coffeeId);
+        coffee2.put("korName", korName);
+        coffee2.put("price", price);
+
+        return new ResponseEntity<>(coffee2, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{coffeeId}")
+    public ResponseEntity coffeeDelete(@PathVariable("coffeeId") long coffeeId) {
+
+        if(!coffees.containsKey(coffeeId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        coffees.remove(coffeeId);
+        return new ResponseEntity<>(coffees, HttpStatus.NO_CONTENT);
     }
 
     //---------------- 여기서 부터 아래에 코드를 구현하세요! -------------------//
