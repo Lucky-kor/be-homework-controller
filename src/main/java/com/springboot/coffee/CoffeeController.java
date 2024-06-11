@@ -1,7 +1,8 @@
 package com.springboot.coffee;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -26,5 +27,31 @@ public class CoffeeController {
 
     //---------------- 여기서 부터 아래에 코드를 구현하세요! -------------------//
     // 1. 커피 정보 수정을 위한 핸들러 메서드 구현
+    @PatchMapping("/{coffeeId}")
+    public ResponseEntity putCoffee(@PathVariable("coffeeId") Long coffeeId,
+                                    @RequestParam(value = "korName",required = false) String korName,
+                                    @RequestParam(value = "engName",required = false) String engName,
+                                    @RequestParam(value = "price",required = false) Integer price) {
+
+        if (!coffees.containsKey(coffeeId)) {return new ResponseEntity(HttpStatus.NOT_FOUND);}
+
+        Map<String, Object> coffee = coffees.get(coffeeId);
+        if (korName != null) {coffee.put("korName", korName);}
+        if (engName != null) {coffee.put("engName", engName);}
+        if (price != null) {coffee.put("price", price);}
+
+        return new ResponseEntity(coffee, HttpStatus.OK);
+    }
+
     // 2. 커피 정보 삭제를 위한 핸들러 서드 구현
+    @DeleteMapping("/{coffeeId}")
+    public ResponseEntity deleteCoffee(@PathVariable("coffeeId") Long coffeeId) {
+        if (!coffees.containsKey(coffeeId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        coffees.remove(coffeeId);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }
