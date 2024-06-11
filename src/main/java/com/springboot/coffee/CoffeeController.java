@@ -33,11 +33,12 @@ public class CoffeeController {
                                       @RequestParam("korName") String korName,
                                       @RequestParam("price") int price){
         if(coffees.containsKey(coffeeId)){
-            coffees.get(coffeeId).put("korName", korName);
-            coffees.get(coffeeId).put("price", price);
-            return new ResponseEntity<>(coffees, HttpStatus.OK);
+            Map<String, Object> coffee = coffees.get(coffeeId);
+            coffee.put("korName", korName);
+            coffee.put("price", price);
+            return new ResponseEntity<>(coffee, HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
     @DeleteMapping("/{coffee-id}")
@@ -46,7 +47,7 @@ public class CoffeeController {
             coffees.remove(coffeeId);
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }else{
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 }
