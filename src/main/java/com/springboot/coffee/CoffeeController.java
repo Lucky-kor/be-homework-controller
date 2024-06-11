@@ -49,5 +49,6 @@ public class CoffeeController {
         coffees.remove(coffeeId);
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 
+
     }
 }
