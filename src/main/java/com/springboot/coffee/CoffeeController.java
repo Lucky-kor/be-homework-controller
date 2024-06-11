@@ -27,14 +27,12 @@ public class CoffeeController {
 
     //---------------- 여기서 부터 아래에 코드를 구현하세요! -------------------//
     @PatchMapping("/{coffeeId}")
-    public ResponseEntity putMember(@PathVariable("coffeeId") Long coffeeId,
+    public ResponseEntity putCoffee(@PathVariable("coffeeId") Long coffeeId,
                                     @RequestParam(value = "korName",required = false) String korName,
                                     @RequestParam(value = "engName",required = false) String engName,
                                     @RequestParam(value = "price",required = false) Integer price) {
 
-        if (!coffees.containsKey(coffeeId)) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+        if (!coffees.containsKey(coffeeId)) {return new ResponseEntity(HttpStatus.NOT_FOUND);}
 
         Map<String, Object> coffee = coffees.get(coffeeId);
         if (korName != null) {coffee.put("korName", korName);}
@@ -47,7 +45,7 @@ public class CoffeeController {
     // 2. 회원 정보 삭제를 위한 핸들러 메서드 구현
     //delete
     @DeleteMapping("/{coffeeId}")
-    public ResponseEntity deleteMember(@PathVariable("coffeeId") Long coffeeId) {
+    public ResponseEntity deleteCoffee(@PathVariable("coffeeId") Long coffeeId) {
         if (!coffees.containsKey(coffeeId)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
