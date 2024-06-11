@@ -30,12 +30,13 @@ public class MemberController {
     // 2. 회원 정보 삭제를 위한 핸들러 메서드 구현
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id")long memberId,
-            @RequestParam("phone") String targetPhone){
+                                      @RequestParam("phone") String targetPhone){
         if(members.containsKey(memberId)){
-            members.get(memberId).put("phone", targetPhone);
-            return new ResponseEntity<>(members,HttpStatus.OK);
+            Map<String,Object> member = members.get(memberId);
+            member.put("phone", targetPhone);
+            return new ResponseEntity<>(member,HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
     @DeleteMapping("/{member-id}")
@@ -44,7 +45,7 @@ public class MemberController {
             members.remove(memberId);
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
