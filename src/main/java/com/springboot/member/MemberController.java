@@ -1,7 +1,8 @@
 package com.springboot.member;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -25,7 +26,28 @@ public class MemberController {
     }
 
     //---------------- 여기서 부터 아래에 코드를 구현하세요! --------------------//
-    // 1. 회원 정보 수정을 위한 핸들러 메서드 구현
-    // 2. 회원 정보 삭제를 위한 핸들러 메서드 구현
+    // 1. 회원 정보 수정을 위한 핸들러 메서드 구현 patch
+    // 2. 회원 정보 삭제를 위한 핸들러 메서드 구현 delete
+    // memberId 는 URI 경로에 포함: /v1/members/1
 
+    @PatchMapping("/{memberId}")
+    public ResponseEntity patchMember(@PathVariable("memberId") Long memberId,
+            @RequestParam String phone){
+
+       // if(members == null) return new ResponseEntity(HttpStatus.NOT_FOUND); 이렇게 쓰기 보단 아래처럼 예외 처리.
+        if(!members.containsKey(memberId)) return new ResponseEntity(HttpStatus.NOT_FOUND);
+
+        Map<String, Object> member = members.get(memberId);
+        member.put("phone", phone);
+     //   member.replace("phone", phone); 를 사용해도 됨.
+
+        return new ResponseEntity(member,HttpStatus.OK); // OK 대신 CREATED 사용
+    }
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity deleteMember(@PathVariable("memberId") Long memberId){
+        if(!members.containsKey(memberId)) return new ResponseEntity(HttpStatus.NOT_FOUND);
+
+        members.remove(memberId);
+        return new ResponseEntity(members.get(memberId),HttpStatus.OK);
+    }
 }
