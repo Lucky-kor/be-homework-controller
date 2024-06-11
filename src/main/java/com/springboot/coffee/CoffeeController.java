@@ -32,18 +32,21 @@ public class CoffeeController {
     public ResponseEntity patchCoffee(@PathVariable("coffee-id") long coffeeId,
                                       @RequestParam("korName") String korName,
                                       @RequestParam("price") int price){
-        try{
+        if(coffees.containsKey(coffeeId)){
             coffees.get(coffeeId).put("korName", korName);
             coffees.get(coffeeId).put("price", price);
             return new ResponseEntity<>(coffees, HttpStatus.OK);
-        }catch(NullPointerException e){
+        }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
     @DeleteMapping("/{coffee-id}")
     public ResponseEntity deleteCoffee(@PathVariable("coffee-id") long coffeeId){
-        coffees.remove(coffeeId);
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        if(coffees.containsKey(coffeeId)){
+            coffees.remove(coffeeId);
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }else{
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
-
 }
