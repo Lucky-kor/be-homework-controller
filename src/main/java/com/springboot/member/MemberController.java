@@ -1,7 +1,8 @@
 package com.springboot.member;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -24,8 +25,23 @@ public class MemberController {
         members.put(memberId, member1);
     }
 
+
     //---------------- 여기서 부터 아래에 코드를 구현하세요! --------------------//
     // 1. 회원 정보 수정을 위한 핸들러 메서드 구현
-    // 2. 회원 정보 삭제를 위한 핸들러 메서드 구현
+    @PatchMapping("/{memberId}")
+    public ResponseEntity patchMember(@PathVariable("memberId") Long memberId,
+                                @RequestParam("phone") String phone) { //@RequestParam String phone) {
+        if(!members.containsKey(memberId))
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
+        members.get(memberId).put("phone",phone);
+        return new ResponseEntity<>(members.get(memberId), HttpStatus.CREATED);
+    }
+
+    // 2. 회원 정보 삭제를 위한 핸들러 메서드 구현
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity deleteMember(@PathVariable("memberId") Long memberId){
+        members.remove(memberId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
