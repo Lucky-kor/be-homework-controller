@@ -44,7 +44,7 @@ public class MemberController {
         if (name != null) {member.put("name", name);}
         if (email != null) {member.put("email", email);}
 
-        return new ResponseEntity(member, HttpStatus.CREATED);
+        return new ResponseEntity(member, HttpStatus.OK);
     }
 
     // 2. 회원 정보 삭제를 위한 핸들러 메서드 구현
@@ -54,6 +54,6 @@ public class MemberController {
         members.remove(memberId);
         Map<String, Object> member = members.get(memberId);
 
-        return new ResponseEntity(member, HttpStatus.CREATED);
+        return new ResponseEntity(member, HttpStatus.NO_CONTENT);
     }
 }
