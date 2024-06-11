@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/week1-homework-controller.iml" filepath="$PROJECT_DIR$/.idea/modules/week1-homework-controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/week1-homework-controller.main.iml" filepath="$PROJECT_DIR$/.idea/modules/week1-homework-controller.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/week1-homework-controller.test.iml" filepath="$PROJECT_DIR$/.idea/modules/week1-homework-controller.test.iml" />
+    </modules>
+  </component>
+</project>
