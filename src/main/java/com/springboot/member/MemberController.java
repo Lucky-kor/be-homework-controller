@@ -25,35 +25,42 @@ public class MemberController {
         members.put(memberId, member1);
     }
 
-    @PostMapping("/{member_id}")
-    public ResponseEntity getMember(@PathVariable("member_id") Long memberId) {
-        Map<String, Object> member = members.get(memberId);
-        return new ResponseEntity<>(member, HttpStatus.CREATED);
-    }
     //---------------- 여기서 부터 아래에 코드를 구현하세요! --------------------//
     // 1. 회원 정보 수정을 위한 핸들러 메서드 구현
-    //put
     @PatchMapping("/{member_id}")
     public ResponseEntity putMember(@PathVariable("member_id") Long member_id,
                                     @RequestParam(value = "phone",required = false) String phone,
                                     @RequestParam(value = "name",required = false) String name,
                                     @RequestParam(value = "email",required = false) String email) {
 
+        if (!members.containsKey(member_id)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
         Map<String, Object> member = members.get(member_id);
-        if (phone != null) {member.put("phone", phone);}
-        if (name != null) {member.put("name", name);}
-        if (email != null) {member.put("email", email);}
+        if (phone != null) {
+            member.put("phone", phone);
+        }
+        if (name != null) {
+            member.put("name", name);
+        }
+        if (email != null) {
+            member.put("email", email);
+        }
 
         return new ResponseEntity(member, HttpStatus.OK);
     }
 
     // 2. 회원 정보 삭제를 위한 핸들러 메서드 구현
-    //delete
     @DeleteMapping("/{member_id}")
     public ResponseEntity deleteMember(@PathVariable("member_id") Long memberId) {
-        members.remove(memberId);
-        Map<String, Object> member = members.get(memberId);
 
-        return new ResponseEntity(member, HttpStatus.NO_CONTENT);
+        if (!members.containsKey(memberId)) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        members.remove(memberId);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

@@ -26,6 +26,7 @@ public class CoffeeController {
     }
 
     //---------------- 여기서 부터 아래에 코드를 구현하세요! -------------------//
+    // 1. 커피 정보 수정을 위한 핸들러 메서드 구현
     @PatchMapping("/{coffeeId}")
     public ResponseEntity putCoffee(@PathVariable("coffeeId") Long coffeeId,
                                     @RequestParam(value = "korName",required = false) String korName,
@@ -42,8 +43,7 @@ public class CoffeeController {
         return new ResponseEntity(coffee, HttpStatus.OK);
     }
 
-    // 2. 회원 정보 삭제를 위한 핸들러 메서드 구현
-    //delete
+    // 2. 커피 정보 삭제를 위한 핸들러 서드 구현
     @DeleteMapping("/{coffeeId}")
     public ResponseEntity deleteCoffee(@PathVariable("coffeeId") Long coffeeId) {
         if (!coffees.containsKey(coffeeId)) {
